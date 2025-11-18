@@ -1,28 +1,4 @@
-doctype html
-html(lang="en")
-  head
-    meta(charset="UTF-8")
-    meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    title Product Management Home
-    link(rel="stylesheet" href="/styles/main.css")
-  body
-    header
-      h1 Welcome to the Product Management System
-      nav
-        ul
-          li: a(href="/products") Products
-          li: a(href="/categories") Categories
-          li: a(href="/orders") Orders
-          li: a(href="/profile") Profile
-    main
-      section
-        h2 Dashboard
-        p Here you can manage your products, view orders, and update your profile.
-      section
-        h2 Recent Activities
-        ul
-          li Added new product "Product A"
-          li Updated category "Category B"
-          li Processed order #12345
-    footer
-      p &copy; 2024 Product Management System
+extends ../../layouts/default.pug
+
+block main
+  h2 Chào mừng bạn đến với trang chủ!
