@@ -1,0 +1,137 @@
+/* Reset cơ bản */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body chia 2 phần: sider + main */
+.body {
+    display: flex;
+    width: 100%;
+    min-height: calc(100vh - 60px); /* header = 60px */
+    background: #f5f6fa;
+}
+
+/* ===== HEADER ===== */
+.header {
+    width: 100%;
+    height: 60px;
+    background: #343a40;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.header .inner-logo a {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* ===== SIDEBAR ===== */
+.sider {
+    width: 230px;
+    background: #212529;
+    color: #fff;
+    min-height: calc(100vh - 60px);
+    padding-top: 20px;
+    position: sticky;
+    top: 60px;  /* dính dưới header */
+}
+
+.sider a {
+    display: block;
+    color: #ddd;
+    padding: 12px 20px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.sider a:hover,
+.sider a.active {
+    background: #343a40;
+    color: #fff;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main {
+    flex: 1;
+    padding: 25px;
+    background: #f8f9fa;
+}
+
+.main h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .sider {
+        width: 180px;
+    }
+}
+
+@media (max-width: 576px) {
+    .body {
+        flex-direction: column;
+    }
+    .sider {
+        width: 100%;
+        position: relative;
+        top: 0;
+        min-height: auto;
+    }
+}
+
+/* ===== SIDEBAR STYLE ===== */
+
+.sider {
+    width: 230px;
+    background: #212529;       /* nền đen nhẹ */
+    color: #fff;
+    padding-top: 15px;
+    min-height: calc(100vh - 60px);
+    position: sticky;
+    top: 60px;
+    border-right: 1px solid #2f3336;
+}
+
+.sider .inner-menu ul {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.sider .inner-menu ul li {
+    margin-bottom: 5px;
+}
+
+.sider .inner-menu ul li a {
+    display: block;
+    padding: 12px 18px;
+    color: #ced4da;
+    font-size: 15px;
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: all 0.2s ease;
+}
+
+/* Hover */
+.sider .inner-menu ul li a:hover {
+    background: #343a40;
+    color: #fff;
+    border-left: 3px solid #0d6efd;   /* viền xanh nổi bật */
+}
+
+/* Active link – nếu bạn muốn tự thêm class 'active' */
+.sider .inner-menu ul li a.active {
+    background: #343a40;
+    color: #fff;
+    border-left: 3px solid #0d6efd;
+    font-weight: 500;
+}
