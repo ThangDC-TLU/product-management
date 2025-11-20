@@ -1,34 +1,11 @@
 const Product = require("../../model/product.model");
+const filterStatusHelper = require("../../helpers/filterStatus");
+const searchHelper = require("../../helpers/search");
+
 //[GET] /admin/products
 module.exports.product = async (req, res) => {
-    let filterStatus = [
-        {
-            name: "Tất cả",
-            status: "",
-            class: ""
-        },
-        {
-            name: "Hoạt động",
-            status: "active",
-            class: ""
-        },
-        {
-            name: "Dừng hoạt động",
-            status: "inactive",
-            class: ""
-        },
-
-    ]
-
-    if(req.query.status){
-        const index = filterStatus.findIndex((item) => item.status === req.query.status);
-        filterStatus[index].class = "active";
-    } else{
-        const index = filterStatus.findIndex((item) => item.status === "");
-        filterStatus[index].class = "active";
-    }
-
-
+    //Tạo đối tượng filterStatus
+    const filterStatus = filterStatusHelper(req.query);
 
     let find = {
         deleted: false
@@ -39,20 +16,17 @@ module.exports.product = async (req, res) => {
     }
 
     //logic search title 
-    let keyword = "";
-    if(req.query.keyword){
-        keyword = req.query.keyword;
-        //tìm kiếm ko fix cứng bằng regex
-        const regex = new RegExp(keyword, "i");
-        find.title = regex;
+    const objectSearch = searchHelper(req.query);
+    if(objectSearch.regex){
+        find.title = objectSearch.regex;
     }
 
     const products = await Product.find(find);
-    // console.log(products);
+
     res.render("admin/pages/product/index", {
         pageTitle: "Danh sách sản phẩm",
         products: products, 
         filterStatus: filterStatus, 
-        keyword: keyword
+        keyword: objectSearch.keyword
     });
 };
