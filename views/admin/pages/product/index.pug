@@ -3,6 +3,20 @@ extends ../../layouts/default.pug
 block main
   h1 Danh sách sản phẩm
 
+  .card.mb-3
+    .card-header Bộ lọc và Tìm kiếm
+    .card-body
+      .row
+        .col-6
+          each item in filterStatus
+            button.btn.btn-sm.ml-1.btn-outline-success(class=item.class button-status=item.status)= item.name
+        .col-6
+          form(id="form-search")
+            .input-group
+              input.form-control(type="text", name="keyword", placeholder="Tìm kiếm sản phẩm...", value=keyword)
+              .input-group-append
+                button.btn.btn-success(type="submit") Tìm kiếm
+
   table.table.table-bordered.table-hover.mt-3
     thead.thead-dark
       tr
@@ -13,7 +27,6 @@ block main
         th(style="width: 120px") Trạng thái
         th(style="width: 140px") Hành động
     tbody
-      //- Dữ liệu test
       each item, index in products 
         tr
           td #{index + 1}
@@ -21,12 +34,11 @@ block main
             img(src=item.image, style="width: 80px; height: 80px; object-fit: cover;")
           td #{item.title}
           td #{item.price}$
-          td 
+          td
             if item.status === 'inactive'
               span.badge.badge-danger Dừng hoạt động
             else if item.status === 'active'
               span.badge.badge-success Hoạt động
           td
-            a.btn.btn-sm.btn-primary(href="#") Sửa
-            |  
-            a.btn.btn-sm.btn-danger(href="#") Xóa
+            button.btn.btn-sm.btn-primary Sửa
+            button.btn.btn-sm.btn-danger.ml-2 Xóa
