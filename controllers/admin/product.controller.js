@@ -33,18 +33,6 @@ module.exports.product = async (req, res) => {
         countProducts
     );
 
-    // if(req.query.page){
-    //     objectPagination.currentPage = parseInt(req.query.page);
-    // }
-
-    // objectPagination.skip = ((objectPagination.currentPage) - 1)*objectPagination.limitItem;
-    // console.log(objectPagination.skip);
-
-    // const countProducts = await Product.countDocuments(find);
-    // const totalPage = Math.ceil(countProducts/objectPagination.limitItem);
-    // objectPagination.totalPages = totalPage;
-    //End pagination
-
     const products = await Product.find(find).limit(objectPagination.limitItem).skip(objectPagination.skip);
 
     res.render("admin/pages/product/index", {
@@ -54,4 +42,14 @@ module.exports.product = async (req, res) => {
         keyword: objectSearch.keyword,
         pagination: objectPagination
     });
+};
+
+//[Patch] /admin/products/change-status/:status/:id
+module.exports.changeStatus = async (req, res) => {
+    const status = req.params.status;
+    const id = req.params.id;
+    const refererUrl = req.headers.referer;
+    await Product.updateOne({_id: id}, {status: status});
+
+    res.redirect(refererUrl);
 };

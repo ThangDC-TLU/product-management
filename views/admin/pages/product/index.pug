@@ -33,11 +33,29 @@ block main
           td #{item.price}$
           td
             if item.status === 'inactive'
-              span.badge.badge-danger Dừng hoạt động
+              a(
+                href="javascript:void(0);"
+                data-status = item.status
+                data-id = item.id
+                button-change-status
+              ).badge.badge-danger Dừng hoạt động
             else if item.status === 'active'
-              span.badge.badge-success Hoạt động
+              a(
+                href="javascript:void(0);"
+                data-status = item.status
+                data-id = item.id
+                button-change-status
+              ).badge.badge-success Hoạt động
           td
             button.btn.btn-sm.btn-primary Sửa
             button.btn.btn-sm.btn-danger.ml-2 Xóa
 
   +pagination(pagination)
+
+  form(
+    action=""
+    method="POST"
+    id="form-change-status"
+    data-path=`${prefixAdmin}/products/change-status`) 
+
+  script(src="/admin/js/product.js") 
