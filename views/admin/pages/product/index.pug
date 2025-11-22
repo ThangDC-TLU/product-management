@@ -2,55 +2,65 @@ extends ../../layouts/default.pug
 include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
+include ../../mixins/form-change-multi.pug
 block main
-  h1 Danh sách sản phẩm
-
-  .card.mb-3
-    .card-header Bộ lọc và Tìm kiếm
+  h1.mb-4 Danh sách sản phẩm
+  .card.shadow.mb-4
+    .card-header.bg-light.text-dark Bộ lọc và Tìm kiếm
     .card-body
-      .row
+      .row.align-items-center
         .col-6
           +filter-status(filterStatus)
         .col-6
           +search(keyword)
 
-  table.table.table-bordered.table-hover.mt-3
-    thead.thead-dark
-      tr
-        th(style="width: 60px") STT
-        th(style="width: 120px") Hình ảnh
-        th Tiêu đề
-        th(style="width: 120px") Giá
-        th(style="width: 120px") Trạng thái
-        th(style="width: 140px") Hành động
-    tbody
-      each item, index in products 
-        tr
-          td #{index + 1}
-          td
-            img(src=item.image, style="width: 80px; height: 80px; object-fit: cover;")
-          td #{item.title}
-          td #{item.price}$
-          td
-            if item.status === 'inactive'
-              a(
-                href="javascript:void(0);"
-                data-status = item.status
-                data-id = item.id
-                button-change-status
-              ).badge.badge-danger Dừng hoạt động
-            else if item.status === 'active'
-              a(
-                href="javascript:void(0);"
-                data-status = item.status
-                data-id = item.id
-                button-change-status
-              ).badge.badge-success Hoạt động
-          td
-            button.btn.btn-sm.btn-primary Sửa
-            button.btn.btn-sm.btn-danger.ml-2 Xóa
+  .card.shadow.mb-4
+    .card-header.bg-primary.text-white Danh sách sản phẩm
+    .card-body
+      +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+      .table-responsive
+        table.table.table-bordered.table-hover.mt-3.align-middle(checkbox-multi)
+          thead.bg-light
+            tr
+              th(style="width: 50px") 
+                input(type="checkbox" name="checkall") 
+              th(style="width: 60px") STT
+              th(style="width: 120px") Hình ảnh
+              th Tiêu đề
+              th(style="width: 120px") Giá
+              th(style="width: 120px") Trạng thái
+              th(style="width: 140px") Hành động
+          tbody
+            each item, index in products
+              tr
+                td
+                  input(type="checkbox" name="id" value=item.id)
+                td #{index + 1}
+                td
+                  img(src=item.image, style="width: 80px; height: 80px; object-fit: cover;" alt=item.title)
+                td #{item.title}
+                td.font-weight-bold #{item.price}$
+                td
+                  if item.status === 'inactive'
+                    a(
+                      href="javascript:void(0);"
+                      data-status = item.status
+                      data-id = item.id
+                      button-change-status
+                    ).badge.badge-danger.p-2 Dừng hoạt động
+                  else if item.status === 'active'
+                    a(
+                      href="javascript:void(0);"
+                      data-status = item.status
+                      data-id = item.id
+                      button-change-status
+                    ).badge.badge-success.p-2 Hoạt động
+                td
+                  .btn-group.btn-group-sm
+                    button.btn.btn-info Sửa
+                    button.btn.btn-danger.ml-2 Xóa
 
-  +pagination(pagination)
+      +pagination(pagination)
 
   form(
     action=""
@@ -58,4 +68,4 @@ block main
     id="form-change-status"
     data-path=`${prefixAdmin}/products/change-status`) 
 
-  script(src="/admin/js/product.js") 
+  script(src="/admin/js/product.js")

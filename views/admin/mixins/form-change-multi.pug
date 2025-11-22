@@ -1,0 +1,19 @@
+mixin form-change-multi(action)
+    form(
+        action=`${action}`,
+        method="POST"
+        form-change-multi
+    )
+        .d-flex.align-items-center.mb-3
+          .form-group.mr-2
+            select.form-control(name="type")
+              option(value="active") Hoạt động
+              option(value="inactive") Dừng hoạt động
+          .form-group.mr-2
+            input(
+              type="text"
+              name="ids"
+              value=""
+              hidden
+            )
+            button.btn.btn-sm.btn-success(type="submit") Áp dụng

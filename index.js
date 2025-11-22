@@ -1,7 +1,9 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 const app = express();
 app.use(methodOverride("_method"));
+app.use(bodyParser.urlencoded())
 require("dotenv").config();
 
 const systemConfig = require("./config/system")
