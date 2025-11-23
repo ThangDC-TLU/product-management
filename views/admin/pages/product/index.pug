@@ -28,6 +28,7 @@ block main
               th(style="width: 120px") Hình ảnh
               th Tiêu đề
               th(style="width: 120px") Giá
+              th(style="width: 80px") Vị trí
               th(style="width: 120px") Trạng thái
               th(style="width: 140px") Hành động
           tbody
@@ -40,6 +41,13 @@ block main
                   img(src=item.image, style="width: 80px; height: 80px; object-fit: cover;" alt=item.title)
                 td #{item.title}
                 td.font-weight-bold #{item.price}$
+                td
+                  input(
+                    type="number" value=item.position
+                    class="form-control form-control-sm text-center"
+                    min ="1"
+                    name ="position"
+                  )
                 td
                   if item.status === 'inactive'
                     a(
