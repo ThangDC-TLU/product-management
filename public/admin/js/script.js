@@ -104,7 +104,5 @@ if(formChangeMulti){
         } else{
             alert("Vui lòng chọn ít nhất 1 bản ghi");
         }
-
-
     })
 }

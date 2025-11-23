@@ -22,8 +22,8 @@ block main
         table.table.table-bordered.table-hover.mt-3.align-middle(checkbox-multi)
           thead.bg-light
             tr
-              th(style="width: 50px") 
-                input(type="checkbox" name="checkall") 
+              th(style="width: 50px")
+                input(type="checkbox" name="checkall")
               th(style="width: 60px") STT
               th(style="width: 120px") Hình ảnh
               th Tiêu đề
@@ -58,7 +58,7 @@ block main
                 td
                   .btn-group.btn-group-sm
                     button.btn.btn-info Sửa
-                    button.btn.btn-danger.ml-2 Xóa
+                    button.btn.btn-danger.ml-2(button-delete data-id=item.id) Xóa
 
       +pagination(pagination)
 
@@ -66,6 +66,12 @@ block main
     action=""
     method="POST"
     id="form-change-status"
-    data-path=`${prefixAdmin}/products/change-status`) 
+    data-path=`${prefixAdmin}/products/change-status`)
+  
+  form(
+    action=""
+    method="POST"
+    id="form-delete"
+    data-path=`${prefixAdmin}/products/delete`) 
 
   script(src="/admin/js/product.js")

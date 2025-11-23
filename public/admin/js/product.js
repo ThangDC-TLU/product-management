@@ -19,3 +19,21 @@ if(buttonChangeStatus){
         });
     });
 }
+
+//delete product
+const btnDelete = document.querySelectorAll("[button-delete]");
+if(btnDelete.length > 0){
+    const formDelete = document.querySelector("#form-delete");
+    const path = formDelete.getAttribute("data-path");
+    btnDelete.forEach((button) => {
+        button.addEventListener("click", () => {
+            const isConfirm = confirm("Bạn có chắc muốn xóa không?");
+            if(isConfirm){
+                const id = button.getAttribute("data-id");
+                const action = `${path}/${id}?_method=DELETE`;
+                formDelete.action = action;
+                formDelete.submit();
+            }
+        })
+    })
+}
