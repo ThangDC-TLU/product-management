@@ -120,3 +120,16 @@ if(formChangeMulti){
         }
     })
 }
+
+// Upload image
+const uploadInput = document.querySelector("#thumbnail");
+const uploadPreview = document.querySelector("#thumbnailPreview");
+
+uploadInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        uploadPreview.src = URL.createObjectURL(file);
+        uploadPreview.style.display = "block";
+    }
+});
+

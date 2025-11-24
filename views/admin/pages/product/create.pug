@@ -24,6 +24,8 @@ block main
             .mb-3
                 label.form-label(for="thumbnail") Hình ảnh chính
                 input.form-control-file(type="file" id="thumbnail" name="thumbnail" accept="image/*" required)
+                .mt-2
+                  img#thumbnailPreview(src="" alt="Xem trước hình ảnh" style="max-width:100%; height:auto; display:none; border:1px solid #e3e3e3; padding:6px; border-radius:6px;")
 
           // RIGHT COLUMN
           .col-lg-5
