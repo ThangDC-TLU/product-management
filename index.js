@@ -1,6 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
+const flash = require("express-flash"); 
+const cookieParser = require('cookie-parser')
+const session = require('express-session')
 const app = express();
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded())
@@ -18,6 +21,11 @@ app.set("views", "./views");
 app.set("view engine", "pug");
 
 app.use(express.static("public"));
+
+//sử dụng express-flash
+app.use(cookieParser('dhahdajdakdkad'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 // APP LOCAL VARIABLE 
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
