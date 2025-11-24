@@ -20,7 +20,12 @@ block main
   .card.shadow.mb-4
     .card-header.bg-primary.text-white Danh sách sản phẩm
     .card-body
-      +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+      .row
+        .col-8
+          +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+        .col-4.text-right
+          a.btn.btn-success(href=`${prefixAdmin}/products/create`) Thêm sản phẩm mới
+
       .table-responsive
         table.table.table-bordered.table-hover.mt-3.align-middle(checkbox-multi)
           thead.bg-light
