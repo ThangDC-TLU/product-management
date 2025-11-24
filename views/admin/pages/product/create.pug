@@ -1,6 +1,8 @@
 extends ../../layouts/default.pug
-
+include ../../mixins/alert.pug
 block main
+  if messages && messages.error
+    .alert.alert-danger #{messages.error}
   if messages && messages.success
     .alert.alert-success #{messages.success}
 
@@ -15,7 +17,7 @@ block main
           .col-lg-7
             .mb-3
               label.form-label(for="title") Tiêu đề
-              input.form-control(type="text" id="title" name="title" required placeholder="Nhập tiêu đề sản phẩm")
+              input.form-control(type="text" id="title" name="title" placeholder="Nhập tiêu đề sản phẩm")
 
             .mb-3
               label.form-label(for="description") Mô tả

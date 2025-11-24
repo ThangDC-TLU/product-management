@@ -1,0 +1,10 @@
+mixin alert-error(time)
+    - if (messages && messages.error)
+        .message.info
+            div(
+                class="alert alert-danger alert-dismissible fade show",
+                role="alert",
+                data-time=time
+            )
+                | #{messages.error}
+                button.btn-close(type="button" data-bs-dismiss="alert" aria-label="Close")
