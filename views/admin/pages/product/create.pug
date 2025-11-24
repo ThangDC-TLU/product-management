@@ -10,7 +10,7 @@ block main
 
   .card.shadow.mb-4
     .card-body
-      form(action=`${prefixAdmin}/products/create` method="POST" id="form-create-product" )
+      form(action=`${prefixAdmin}/products/create` method="POST" id="form-create-product" enctype="multipart/form-data" )
         .row.g-4
           .col-lg-7
             .mb-3
@@ -23,7 +23,7 @@ block main
 
             .mb-3
                 label.form-label(for="thumbnail") Hình ảnh chính
-                input.form-control(type="text" id="thumbnail" name="thumbnail" required)
+                input.form-control-file(type="file" id="thumbnail" name="thumbnail" accept="image/*" required)
 
           // RIGHT COLUMN
           .col-lg-5
@@ -44,7 +44,7 @@ block main
 
             .mb-3
               label.form-label(for="position") Vị trí hiển thị
-              input.form-control(type="number" id="position" name="position" min="1" value="")
+              input.form-control(type="number" id="position" name="position" min="1" placeholder="Tự động tăng")
 
             // STATUS SELECT - ENHANCED SPACING
             .mb-4
