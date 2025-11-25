@@ -2,19 +2,40 @@ extends ../../layouts/default.pug
 include ../../mixins/box-head.pug
 
 block main
-    .container.my-3
-        .row
-            .col-12
-                +box-head('Danh sách sản phẩm')
+  .container.my-5
+    .row
+      .col-12.mb-4
+        +box-head('Danh sách sản phẩm nổi bật')
 
-        .row
-            each item in products
-                .col-4.mb-3
-                    .product-item
-                        .inner-image
-                            img(src=item.thumbnail, alt=item.title)
-                        .inner-content
-                            h3.inner-title #{item.title}
-                            .inner-price-new #{item.priceNew}$
-                            .inner-price-old #{item.priceOld}$
-                            .inner-discount #{item.discountPercentage}%
+    .row
+      each item in products
+        - var priceNew = (item.price * (100 - item.discountPercentage) / 100).toFixed(0)
+        .col-xl-3.col-lg-4.col-md-6.col-12.mb-4
+          .product-item.card.h-100.border-0.shadow-sm
+            //- Phần hình ảnh và nhãn giảm giá
+            .inner-image.position-relative.overflow-hidden
+              a(href=`/products/${item.slug}`)
+                img.card-img-top(src=item.thumbnail, alt=item.title)
+              //- Chỉ hiện tem giảm giá nếu có giảm giá
+              if item.discountPercentage > 0
+                .inner-discount.badge.badge-danger.position-absolute
+                  | -#{item.discountPercentage}%
+
+            //- Phần nội dung bên dưới
+            .card-body.d-flex.flex-column
+              h5.card-title.inner-title
+                a.text-dark.text-decoration-none(href=`/products/${item.slug}`) #{item.title}
+              //- Giá cả
+              .inner-price.mt-auto
+                if item.discountPercentage > 0
+                  .d-flex.align-items-center.justify-content-between
+                    span.inner-price-new #{priceNew}$
+                    span.inner-price-old #{item.price}$
+                else
+                   //- Trường hợp không giảm: Chỉ hiện giá gốc
+                   span.inner-price-new #{item.price}$
+
+              //- Nút hành động
+              a.btn.btn-primary.btn-block.mt-3.btn-sm(href=`/products/${item.slug}`)
+                i.fas.fa-shopping-cart.mr-2
+                | Xem chi tiết

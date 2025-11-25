@@ -1,0 +1,97 @@
+extends ../../layouts/default.pug
+
+block main
+  .product-detail-page.py-5
+    .container
+      //- Breadcrumb (Điều hướng)
+      nav(aria-label="breadcrumb")
+        ol.breadcrumb.bg-transparent.pl-0
+          li.breadcrumb-item
+            a(href="/") Trang chủ
+          li.breadcrumb-item
+            a(href="/products") Danh sách sản phẩm
+          li.breadcrumb-item.active(aria-current="page") #{product.title}
+
+      .row
+        //- CỘT TRÁI: HÌNH ẢNH SẢN PHẨM
+        .col-md-6.mb-4
+          .product-image-box.border.rounded.shadow-sm.overflow-hidden
+            img.img-fluid.w-100(src=product.thumbnail alt=product.title style="object-fit: cover;")
+
+        //- CỘT PHẢI: THÔNG TIN MUA HÀNG
+        .col-md-6
+          h1.product-title.mb-3 #{product.title}
+
+          //- Logic hiển thị giá
+          .product-price.mb-3.p-3.rounded
+            - var newPrice = (product.price * (100 - product.discountPercentage) / 100).toFixed(0)
+            
+            if product.discountPercentage > 0
+              div.d-flex.align-items-center
+                span.price-new.text-danger.font-weight-bold.h2.mb-0 #{newPrice}$
+                span.price-old.text-muted.ml-3(style="text-decoration: line-through; font-size: 1.2rem;") #{product.price}$
+                span.badge.badge-danger.ml-3.py-2.px-3 -#{product.discountPercentage}%
+            else
+              span.price-new.text-primary.font-weight-bold.h2 #{product.price}$
+
+          //- Trạng thái kho hàng
+          .product-stock.mb-4
+            if product.stock > 0
+              span.badge.badge-success.p-2 
+                i.fas.fa-check.mr-1
+                | Còn hàng (#{product.stock} sản phẩm)
+            else
+              span.badge.badge-secondary.p-2 
+                i.fas.fa-times.mr-1
+                | Hết hàng
+
+          //- Form thêm vào giỏ hàng
+          if product.stock > 0
+            form(action=`/cart/add/${product.id}` method="POST")
+              .form-group.d-flex.align-items-center.mb-4
+                label.font-weight-bold.mr-3.mb-0(for="quantity") Số lượng:
+                input.form-control.text-center(
+                  type="number"
+                  name="quantity"
+                  value="1"
+                  min="1"
+                  max=product.stock
+                  style="width: 80px;"
+                )
+              
+              .action-buttons
+                button.btn.btn-primary.btn-lg.mr-2.mb-2(type="submit") 
+                  i.fas.fa-cart-plus.mr-2
+                  | Thêm vào giỏ hàng
+                button.btn.btn-outline-primary.btn-lg.mb-2(type="button") 
+                  | Mua ngay
+
+          //- Thông tin phụ (Chính sách)
+          .product-policy.border-top.pt-4.mt-4
+            .row
+              .col-6.mb-3
+                i.fas.fa-shipping-fast.text-primary.mr-2
+                span Giao hàng toàn quốc
+              .col-6.mb-3
+                i.fas.fa-sync-alt.text-primary.mr-2
+                span Đổi trả trong 7 ngày
+              .col-6
+                i.fas.fa-shield-alt.text-primary.mr-2
+                span Bảo hành chính hãng
+              .col-6
+                i.fas.fa-headset.text-primary.mr-2
+                span Hỗ trợ 24/7
+
+      //- PHẦN MÔ TẢ CHI TIẾT BÊN DƯỚI
+      .row.mt-5
+        .col-12
+          .card.shadow-sm
+            .card-header.bg-light
+              h4.mb-0 Mô tả sản phẩm
+            .card-body
+              if product.description
+                .product-desc-content
+                  //- Dùng !{} để render HTML
+                  | !{product.description}
+              else
+                 p Chưa có mô tả cho sản phẩm này.
