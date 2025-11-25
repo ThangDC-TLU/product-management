@@ -24,7 +24,9 @@ block main
         .col-8
           +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
         .col-4.text-right
-          a.btn.btn-success(href=`${prefixAdmin}/products/create`) Thêm sản phẩm mới
+          a.btn.btn-success(href=`${prefixAdmin}/products/create`)
+            i.fas.fa-plus.mr-1
+            | Thêm sản phẩm mới
 
       .table-responsive
         table.table.table-bordered.table-hover.mt-3.align-middle(checkbox-multi)
@@ -38,7 +40,7 @@ block main
               th(style="width: 120px") Giá
               th(style="width: 80px") Vị trí
               th(style="width: 120px") Trạng thái
-              th(style="width: 140px") Hành động
+              th(style="width: 200px") Hành động
           tbody
             each item, index in products
               tr
@@ -46,7 +48,7 @@ block main
                   input(type="checkbox" name="id" value=item.id)
                 td #{index + 1}
                 td
-                  img(src=item.thumbnail, style="width: 80px; height: 80px; object-fit: cover;" alt=item.title)
+                  img(src=item.thumbnail, style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;" alt=item.title)
                 td #{item.title}
                 td.font-weight-bold #{item.price}$
                 td
@@ -72,9 +74,13 @@ block main
                       button-change-status
                     ).badge.badge-success.p-2 Hoạt động
                 td
-                  .btn-group.btn-group-sm
-                    a(href=`${prefixAdmin}/products/edit/${item.id}`).btn.btn-info Sửa
-                    button.btn.btn-danger.ml-2(button-delete data-id=item.id) Xóa
+                  div(style="display: flex; gap: 5px;")
+                    a.btn.btn-secondary.btn-sm(href=`${prefixAdmin}/products/detail/${item.id}`)
+                        i.fas.fa-eye
+                    a.btn.btn-warning.btn-sm(href=`${prefixAdmin}/products/edit/${item.id}`)
+                        i.fas.fa-pencil-alt
+                    button.btn.btn-danger.btn-sm(button-delete data-id=item.id)
+                        i.fas.fa-trash
 
       +pagination(pagination)
 

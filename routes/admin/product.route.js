@@ -23,4 +23,6 @@ router.patch(
     upload.single('thumbnail'),
     validate.createProduct, 
     controller.editProduct);
+
+router.get("/detail/:id", controller.detail);
 module.exports = router;

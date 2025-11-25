@@ -164,3 +164,16 @@ module.exports.editProduct = async (req, res) => {
 
     res.redirect(refererUrl);
 }
+
+//[Get] /admin/products/detail/:id
+module.exports.detail = async (req, res) => {
+    try {
+        const productCurrent = await Product.findOne({_id: req.params.id});
+        res.render("admin/pages/product/detail", {
+            pageTitle: "Xem chi tiết sản phẩm", 
+            product: productCurrent
+        });
+    } catch (error) {
+        res.redirect(`${systemConfig.prefixAdmin}/products`)
+    }
+}

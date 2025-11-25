@@ -1,0 +1,109 @@
+extends ../../layouts/default.pug
+
+block main
+  //- Phần Header: Tiêu đề và Nút điều hướng
+  .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+    h1.h2 Chi tiết sản phẩm
+    .btn-toolbar.mb-2.mb-md-0
+      a.btn.btn-sm.btn-outline-secondary.mr-2(href=`${prefixAdmin}/products`)
+        i.fas.fa-arrow-left.mr-1
+        | Quay lại danh sách
+      a.btn.btn-sm.btn-warning(href=`${prefixAdmin}/products/edit/${product.id}`)
+        i.fas.fa-edit.mr-1
+        | Chỉnh sửa
+
+  //- Hiển thị thông báo nếu có (tùy chọn)
+  if (messages && messages.success)
+    .alert.alert-success #{messages.success}
+
+  //- NỘI DUNG CHÍNH
+  .card.shadow-sm.mb-4
+    .card-header.bg-primary.text-white
+      h5.mb-0 Thông tin chung
+    .card-body
+      .row
+        //- CỘT TRÁI: ẢNH VÀ TRẠNG THÁI
+        .col-md-4
+          //- Hình ảnh
+          .product-image-box.border.rounded.p-2.mb-3(style="background: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 300px")
+            if (product.thumbnail)
+              img.img-fluid(src=product.thumbnail alt=product.title style="max-height: 300px; width: auto; object-fit: contain")
+            else
+              img.img-fluid(src="/admin/images/no-image.png" alt="No Image")
+
+          //- Trạng thái hoạt động
+          .card.border-0.bg-light
+            .card-body.p-3
+              strong.d-block.mb-2 Trạng thái:
+              if (product.status === "active")
+                span.badge.badge-success.w-100.p-2(style="font-size: 14px")
+                  i.fas.fa-check-circle.mr-1
+                  | Hoạt động
+              else
+                span.badge.badge-danger.w-100.p-2(style="font-size: 14px")
+                  i.fas.fa-times-circle.mr-1
+                  | Dừng hoạt động
+
+        //- CỘT PHẢI: CHI TIẾT DỮ LIỆU
+        .col-md-8
+          h3.mb-3.font-weight-bold #{product.title}
+          
+          //- Khu vực giá (Có tính toán giảm giá)
+          .price-box.bg-light.p-3.rounded.mb-4
+            div.row
+                div.col-md-6
+                    label.text-muted Giá gốc:
+                    h4.text-dark #{product.price}$
+                div.col-md-6
+                    label.text-muted Giảm giá:
+                    h4.text-danger #{product.discountPercentage}%
+            
+            hr
+            div.d-flex.align-items-center
+                span.font-weight-bold.mr-3 Giá hiện tại:
+                if (product.discountPercentage > 0)
+                    //- Tính giá sau giảm: Giá gốc * (100 - %giảm) / 100
+                    - const newPrice = (product.price * (100 - product.discountPercentage) / 100).toFixed(0)
+                    h2.text-success.mb-0 #{newPrice}$
+                    span.text-muted.ml-2(style="text-decoration: line-through") #{product.price}$
+                else
+                    h2.text-success.mb-0 #{product.price}$
+
+          //- Thông tin chi tiết (Grid 2 cột nhỏ)
+          .row
+            .col-md-6
+              .form-group
+                strong
+                  i.fas.fa-boxes.mr-2.text-secondary
+                  | Số lượng trong kho (Stock):
+                div.mt-1 #{product.stock} sản phẩm
+
+              .form-group
+                strong
+                  i.fas.fa-sort-numeric-down.mr-2.text-secondary
+                  | Vị trí hiển thị (Position):
+                div.mt-1 #{product.position}
+            
+            .col-md-6
+              .form-group
+                strong
+                  i.fas.fa-calendar-alt.mr-2.text-secondary
+                  | Ngày tạo (Created At):
+                //- Format ngày giờ Việt Nam
+                div.mt-1 #{new Date(product.createdAt).toLocaleString('vi-VN')}
+
+              .form-group
+                strong
+                  i.fas.fa-calendar-check.mr-2.text-secondary
+                  | Cập nhật lần cuối (Updated At):
+                div.mt-1 #{new Date(product.updatedAt).toLocaleString('vi-VN')}
+
+  .card.shadow-sm
+    .card-header.bg-light
+      h5.mb-0 Mô tả sản phẩm
+    .card-body
+      if (product.description)
+        .product-description
+          | !{product.description}
+      else
+        p.text-muted.font-italic Chưa có mô tả.
