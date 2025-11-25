@@ -1,0 +1,66 @@
+extends ../../layouts/default.pug
+include ../../mixins/alert.pug
+block main
+  if messages && messages.error
+    .alert.alert-danger #{messages.error}
+  if messages && messages.success
+    .alert.alert-success #{messages.success}
+
+  .d-flex.justify-content-between.align-items-center.mb-4
+    h1.mb-0 Chỉnh sửa sản phẩm
+    a.btn.btn-outline-secondary(href=`${prefixAdmin}/products`) Quay lại danh sách
+
+  .card.shadow.mb-4
+    .card-body
+      form(action=`${prefixAdmin}/products/edit/${product.id}?_method=PATCH` method="POST" id="form-edit-product" enctype="multipart/form-data" )
+        .row.g-4
+          .col-lg-7
+            .mb-3
+              label.form-label(for="title") Tiêu đề
+              input.form-control(type="text" id="title" name="title" placeholder="Nhập tiêu đề sản phẩm" value=product.title)
+
+            .mb-3
+              label.form-label(for="description") Mô tả
+              textarea.form-control(id="description" name="description" rows="6" required placeholder="Nhập mô tả sản phẩm")= product.description
+            .mb-3
+                label.form-label(for="thumbnail") Hình ảnh chính
+                input.form-control-file(type="file" id="thumbnail" name="thumbnail" accept="image/*")
+                .mt-2
+                    if product.thumbnail
+                        img#thumbnailPreview(src=product.thumbnail alt="Xem trước hình ảnh" style="max-width:100%; height:auto; border:1px solid #e3e3e3; padding:6px; border-radius:6px;")
+                    else
+                        img#thumbnailPreview(src="" alt="Xem trước hình ảnh" style="display:none; max-width:100%; height:auto; border:1px solid #e3e3e3; padding:6px; border-radius:6px;")
+
+          // RIGHT COLUMN
+          .col-lg-5
+            .mb-3
+              label.form-label(for="price") Giá (VND)
+              .input-group
+                span.input-group-text ₫
+                input.form-control(type="number" id="price" name="price" min="0" step="0.01" required value=product.price)
+
+            .mb-3
+              label.form-label(for="discountPercentage") Giảm giá (%)
+              .input-group
+                input.form-control(type="number" id="discountPercentage" name="discountPercentage" min="0" max="100" step="0.01" value=product.discountPercentage)
+                span.input-group-text %
+            .mb-3
+              label.form-label(for="stock") Số lượng
+              input.form-control(type="number" id="stock" name="stock" min="0" required value=product.stock)
+            .mb-3
+              label.form-label(for="position") Vị trí hiển thị
+              input.form-control(type="number" id="position" name="position" min="1" placeholder="Tự động tăng" value=product.position)
+
+            // STATUS SELECT - ENHANCED SPACING
+            .mb-4
+              label.form-label(for="status") Trạng thái
+              select.form-select#status(name="status")
+                option(value="active" selected=product.status === 'active') Hoạt động
+                option(value="inactive" selected=product.status === 'inactive') Không hoạt động
+
+            // BUTTONS WITH PERFECT SPACING
+            .d-flex.gap-3.mt-2
+              button.btn.btn-primary(type="submit") Sửa sản phẩm
+              button.btn.btn-outline-secondary(type="reset") Reset
+
+  script(src="/admin/js/product.js")

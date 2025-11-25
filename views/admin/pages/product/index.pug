@@ -73,7 +73,7 @@ block main
                     ).badge.badge-success.p-2 Hoạt động
                 td
                   .btn-group.btn-group-sm
-                    button.btn.btn-info Sửa
+                    a(href=`${prefixAdmin}/products/edit/${item.id}`).btn.btn-info Sửa
                     button.btn.btn-danger.ml-2(button-delete data-id=item.id) Xóa
 
       +pagination(pagination)
@@ -83,7 +83,6 @@ block main
     method="POST"
     id="form-change-status"
     data-path=`${prefixAdmin}/products/change-status`)
-  
   form(
     action=""
     method="POST"
