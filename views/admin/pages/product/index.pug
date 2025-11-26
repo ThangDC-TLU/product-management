@@ -3,19 +3,24 @@ include ../../mixins/filter-status.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
+include ../../mixins/sort.pug
+
 block main
   - if (messages.success)
     .alert.alert-success #{messages.success}
 
   h1.mb-4 Danh sách sản phẩm
+
   .card.shadow.mb-4
     .card-header.bg-light.text-dark Bộ lọc và Tìm kiếm
     .card-body
       .row.align-items-center
-        .col-6
+        .col-4
           +filter-status(filterStatus)
-        .col-6
+        .col-4
           +search(keyword)
+        .col-4
+          +sort()
 
   .card.shadow.mb-4
     .card-header.bg-primary.text-white Danh sách sản phẩm
@@ -36,11 +41,11 @@ block main
                 input(type="checkbox" name="checkall")
               th(style="width: 60px") STT
               th(style="width: 120px") Hình ảnh
-              th Tiêu đề
+              th(style="min-width: 250px") Tiêu đề
               th(style="width: 120px") Giá
               th(style="width: 80px") Vị trí
               th(style="width: 120px") Trạng thái
-              th(style="width: 200px") Hành động
+              th(style="width: 160px") Hành động
           tbody
             each item, index in products
               tr
@@ -49,7 +54,10 @@ block main
                 td #{index + 1}
                 td
                   img(src=item.thumbnail, style="width: 80px; height: 80px; object-fit: cover; border-radius: 5px;" alt=item.title)
-                td #{item.title}
+                td
+                  h6(style="margin-bottom: 0; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; word-break: break-word;")
+                    | #{item.title}
+
                 td.font-weight-bold #{item.price}$
                 td
                   input(
@@ -93,6 +101,6 @@ block main
     action=""
     method="POST"
     id="form-delete"
-    data-path=`${prefixAdmin}/products/delete`) 
+    data-path=`${prefixAdmin}/products/delete`)
 
   script(src="/admin/js/product.js")
